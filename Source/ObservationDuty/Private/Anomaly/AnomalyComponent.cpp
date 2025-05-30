@@ -3,6 +3,8 @@
 
 #include "Anomaly/AnomalyComponent.h"
 
+#include "Anomaly/AnomalySubsystem.h"
+
 
 UAnomalyComponent::UAnomalyComponent()
 {
@@ -10,10 +12,26 @@ UAnomalyComponent::UAnomalyComponent()
 
 }
 
+void UAnomalyComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	
+}
+
 void UAnomalyComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	AnomalySubsystem = GetWorld()->GetSubsystem<UAnomalySubsystem>();
+	check(AnomalySubsystem);
+
+	AnomalySubsystem->RegisterAnomalyComponent(this);
+}
+
+void UAnomalyComponent::EndPlay()
+{
+	AnomalySubsystem->UnregisterAnomalyComponent(this);
 }
 
 void UAnomalyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

@@ -5,7 +5,12 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 
+#include "GameplayTagContainer.h"
+
 #include "AnomalyComponent.generated.h"
+
+
+class UAnomalySubsystem;
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAnomalyEvent);
@@ -20,15 +25,25 @@ public:
 	UAnomalyComponent();
 
 protected:
+	virtual void InitializeComponent() override;
 	virtual void BeginPlay() override;
+	virtual void EndPlay();
 
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
+	FGameplayTag RoomTag;
+
+protected:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Runtime")
 	bool bAnomalyActive = false;
+
+protected:
+	UPROPERTY(Transient)
+	UAnomalySubsystem* AnomalySubsystem = nullptr;
 
 public:
 	UPROPERTY(BlueprintAssignable, Category = "Anomaly")
@@ -46,6 +61,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Anomaly")
 	void DeactivateAnomaly();
+	
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Anomaly")
+	FGameplayTag GetRoomTag() const { return RoomTag; }
 
 protected:
 	void OnAnomalyActivated();
