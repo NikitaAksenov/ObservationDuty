@@ -8,7 +8,6 @@ UAnomalyComponent::UAnomalyComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
 }
 
 void UAnomalyComponent::BeginPlay()
@@ -21,4 +20,36 @@ void UAnomalyComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+}
+
+void UAnomalyComponent::ActivateAnomaly()
+{
+	if (!bAnomalyActive)
+	{
+		bAnomalyActive = true;
+		OnAnomalyActivated();
+	}
+}
+
+void UAnomalyComponent::DeactivateAnomaly()
+{
+	if (bAnomalyActive)
+	{
+		bAnomalyActive = false;
+		OnAnomalyDeactivated();
+	}
+}
+
+void UAnomalyComponent::OnAnomalyActivated()
+{
+	OnAnomalyActivatedEvent.Broadcast();
+
+	K2_OnAnomalyActivated();
+}
+
+void UAnomalyComponent::OnAnomalyDeactivated()
+{
+	OnAnomalyDeactivatedEvent.Broadcast();
+
+	K2_OnAnomalyDeactivated();
 }

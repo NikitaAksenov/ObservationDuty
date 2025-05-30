@@ -20,6 +20,11 @@ class OBSERVATIONDUTY_API UAnomalySubsystem : public UTickableWorldSubsystem
 	GENERATED_BODY()
 
 
+public:
+	//~ Start UTickableWorldSubsystem Interface
+	virtual TStatId GetStatId() const override;
+	//~ End UTickableWorldSubsystem Interface
+
 protected:
 	TSet<UAnomalyComponent*> AnomalyComponents;
 
