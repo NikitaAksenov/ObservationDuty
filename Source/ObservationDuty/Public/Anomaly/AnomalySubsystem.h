@@ -32,9 +32,9 @@ public:
 	//~ End UTickableWorldSubsystem Interface
 
 protected:
-	TSet<UAnomalyComponent*> AnomalyComponents;
+	TSet<UAnomalyComponent*> AllAnomalies;
 	
-	TMap<FGameplayTag, TSet<UAnomalyComponent*>> AnomaliesByRoom;
+	TMap<FGameplayTag, TSet<UAnomalyComponent*>> AllAnomaliesByRoom;
 
 public:
 	void RegisterAnomalyComponent(UAnomalyComponent* InAnomalyComponent);

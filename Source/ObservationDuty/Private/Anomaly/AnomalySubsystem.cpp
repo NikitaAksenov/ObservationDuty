@@ -20,7 +20,7 @@ void UAnomalySubsystem::Tick(float DeltaTime)
 
 	UE_LOG(LogAnomalySubsystem, Log, TEXT("Anomalies:"));
 	int Index = 1;
-	for (UAnomalyComponent* AnomalyComponent : AnomalyComponents)
+	for (UAnomalyComponent* AnomalyComponent : AllAnomalies)
 	{
 		UE_LOG(LogAnomalySubsystem, Log, TEXT(" - #%d %s %s"),
 			Index, *AnomalyComponent->GetOwner()->GetName(), AnomalyComponent->IsAnomalyActive() ? TEXT("Active") : TEXT("Inactive"));
@@ -28,7 +28,7 @@ void UAnomalySubsystem::Tick(float DeltaTime)
 	}
 
 	UE_LOG(LogAnomalySubsystem, Log, TEXT("Anomalies by room:"));
-	for (auto& AnomaliesInRoom : AnomaliesByRoom)
+	for (auto& AnomaliesInRoom : AllAnomaliesByRoom)
 	{
 		UE_LOG(LogAnomalySubsystem, Log, TEXT(" - Room: %s"), *AnomaliesInRoom.Key.ToString());
 		Index = 1;
@@ -47,9 +47,9 @@ void UAnomalySubsystem::RegisterAnomalyComponent(UAnomalyComponent* InAnomalyCom
 
 	UE_LOG(LogAnomalySubsystem, Log, TEXT("Register anomaly component of %s"), *InAnomalyComponent->GetOwner()->GetName());
 	
-	AnomalyComponents.Add(InAnomalyComponent);
+	AllAnomalies.Add(InAnomalyComponent);
 
-	AnomaliesByRoom.FindOrAdd(InAnomalyComponent->GetRoomTag()).Add(InAnomalyComponent);
+	AllAnomaliesByRoom.FindOrAdd(InAnomalyComponent->GetRoomTag()).Add(InAnomalyComponent);
 }
 
 void UAnomalySubsystem::UnregisterAnomalyComponent(UAnomalyComponent* InAnomalyComponent)
@@ -58,9 +58,9 @@ void UAnomalySubsystem::UnregisterAnomalyComponent(UAnomalyComponent* InAnomalyC
 	
 	UE_LOG(LogAnomalySubsystem, Log, TEXT("Unregister anomaly component of %s"), *InAnomalyComponent->GetOwner()->GetName());
 
-	AnomalyComponents.Remove(InAnomalyComponent);
+	AllAnomalies.Remove(InAnomalyComponent);
 
-	if (TSet<UAnomalyComponent*>* Anomalies = AnomaliesByRoom.Find(InAnomalyComponent->GetRoomTag()))
+	if (TSet<UAnomalyComponent*>* Anomalies = AllAnomaliesByRoom.Find(InAnomalyComponent->GetRoomTag()))
 	{
 		Anomalies->Remove(InAnomalyComponent);
 	}
