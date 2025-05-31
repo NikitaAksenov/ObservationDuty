@@ -4,7 +4,6 @@
 #include "ODPawn.h"
 
 #include "ODCameraActor.h"
-#include "ODGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -60,7 +59,14 @@ void AODPawn::SelectCamera(int InCameraIndex)
 
 	check(CurrentCamera);
 
-	GetLocalViewingPlayerController()->SetViewTarget(CurrentCamera);
+	const FGameplayTag PrevRoomTag = CurrentCamera->GetRoomTag(); 
+
+	UGameplayStatics::GetPlayerController(this, 0)->SetViewTarget(CurrentCamera);
+
+	CurrentRoomTag = CurrentCamera->GetRoomTag();
+	CurrentRoomString = CurrentCamera->GetRoomString();
+
+	OnRoomChangedEvent.Broadcast(PrevRoomTag, CurrentRoomTag);
 }
 
 void AODPawn::SelectNextCamera()

@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Camera/CameraActor.h"
 
+#include "GameplayTagContainer.h"
+
 #include "ODCameraActor.generated.h"
 
 
@@ -22,4 +24,11 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Settings")
+	FGameplayTag RoomTag;
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "ObservationDuty|Camera")
+	FGameplayTag GetRoomTag() const { return RoomTag; }
 };
