@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 
 #include "GameplayTagContainer.h"
+#include "Statics/ODTypes.h"
 
 #include "ODPawn.generated.h"
 
@@ -13,7 +14,7 @@
 class AODCameraActor;
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnRoomChangedEvent, FGameplayTag, PrevRoomTag, FGameplayTag, CurrRoomTag);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnRoomChangedEvent, FRoomTag, PrevRoomTag, FRoomTag, CurrRoomTag);
 
 
 UCLASS()
@@ -44,10 +45,7 @@ protected:
 	int CurrentCameraIndex = 0;
 
 	UPROPERTY(Transient, VisibleInstanceOnly, BlueprintReadOnly, Category = "Runtime")
-	FGameplayTag CurrentRoomTag;
-
-	UPROPERTY(Transient, VisibleInstanceOnly, BlueprintReadOnly, Category = "Runtime")
-	FString CurrentRoomString;
+	FRoomTag CurrentRoomTag;
 
 protected:
 	void SelectCamera(int InCameraIndex);
@@ -64,9 +62,9 @@ public:
 	void SelectPrevCamera();
 
 	UFUNCTION(BlueprintCallable, Category = "ObservationDuty")
-	FGameplayTag GetCurrentRoomTag() const { return CurrentRoomTag; }
+	FRoomTag GetCurrentRoomTag() const { return CurrentRoomTag; }
 
 	UFUNCTION(BlueprintCallable, Category = "ObservationDuty")
-	FString GetCurrentRoomString() const { return CurrentRoomString; }
+	FString GetCurrentRoomString() const { return CurrentRoomTag.ToString(); }
 	
 };

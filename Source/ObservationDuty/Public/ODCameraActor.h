@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Camera/CameraActor.h"
 
-#include "GameplayTagContainer.h"
+#include "Statics/ODTypes.h"
 
 #include "ODCameraActor.generated.h"
 
@@ -26,9 +26,9 @@ public:
 
 protected:
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Settings")
-	FGameplayTag RoomTag;
+	FRoomTag RoomTag;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "ObservationDuty|Camera")
-	FGameplayTag GetRoomTag() const { return RoomTag; }
+	FRoomTag GetRoomTag() const { return RoomTag; }
 };

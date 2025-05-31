@@ -59,12 +59,11 @@ void AODPawn::SelectCamera(int InCameraIndex)
 
 	check(CurrentCamera);
 
-	const FGameplayTag PrevRoomTag = CurrentCamera->GetRoomTag(); 
+	const FRoomTag PrevRoomTag = CurrentCamera->GetRoomTag(); 
 
 	UGameplayStatics::GetPlayerController(this, 0)->SetViewTarget(CurrentCamera);
 
 	CurrentRoomTag = CurrentCamera->GetRoomTag();
-	CurrentRoomString = CurrentCamera->GetRoomString();
 
 	OnRoomChangedEvent.Broadcast(PrevRoomTag, CurrentRoomTag);
 }

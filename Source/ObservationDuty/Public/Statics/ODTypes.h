@@ -14,6 +14,11 @@ struct FRoomTag
 {
 	GENERATED_BODY()
 
+public:
+	FRoomTag() : Tag(FGameplayTag()) {}
+	
+	explicit FRoomTag(const FGameplayTag& InTag) : Tag(InTag) {}
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FGameplayTag Tag;
